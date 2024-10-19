@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lottie/lottie.dart';
 import 'package:onboarding/screens/forgot_password.dart';
 import 'package:onboarding/screens/login_screen.dart';
 import 'package:onboarding/services/firebase_auth.dart';
