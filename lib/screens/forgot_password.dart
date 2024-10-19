@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:onboarding/screens/login_screen.dart';
 import 'package:onboarding/widgets/customized_button.dart';
 import 'package:onboarding/widgets/customized_textfield.dart';
