@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:onboarding/screens/login_screen.dart';
 import 'package:onboarding/screens/register_screen.dart';
 import 'package:onboarding/widgets/customized_button.dart';
@@ -22,29 +21,25 @@ class HomePage extends StatelessWidget {
                     child: Container(
                       height: 450,
                       width: 450,
-                      child: Center(child: Lottie.network('https://lottie.host/77860578-c3a3-4329-a9d5-521c82a561ea/yjeVdJEr4b.json',)),
+                      child: Center(child: Image.asset('assets/images/login.png')),
                     ),
                   ),
                   Customized_button(
-                      buttonText: 'Login',
-                      buttonColor: Color.fromRGBO(14, 70, 163, 5),
-                      textColor: Colors.white,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                      },
-      
+                    buttonText: 'Login',
+                    buttonColor: Color.fromRGBO(14, 70, 163, 5),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                    },
                   ),
                   Customized_button(
                       buttonText: 'Register',
                       buttonColor: Colors.white,
                       textColor: Color.fromRGBO(14, 70, 163, 5),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => Register_Screen()));
-                      }
-                  ),
-      
-      
-      
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => Register_Screen()));
+                      }),
                 ],
               ),
             ),

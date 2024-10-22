@@ -12,67 +12,81 @@ class OnboardingScreen extends StatefulWidget {
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
-
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
-
   bool onLastPage = false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(
+        body: Column(
           children: [
-            PageView(
-              controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  onLastPage = (index == 3);
-                });
-              },
-              children: const [
-                Intro_Page1(),
-                Intro_Page2(),
-                Intro_Page3(),
-                Intro_Page4()
-              ],
+            Expanded(
+              child: PageView(
+                controller: _controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    onLastPage = (index == 3);
+                  });
+                },
+                children: const [
+                  Intro_Page1(),
+                  Intro_Page2(),
+                  Intro_Page3(),
+                  Intro_Page4(),
+                ],
+              ),
             ),
-            Container(
-              alignment: const Alignment(0, 0.75),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        _controller.jumpToPage(3);
-                      },
-                       child: const Text('Skip', style: TextStyle(fontSize: 18 ),)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _controller.jumpToPage(3);
+                    },
+                    child: const Text(
+                      'Skip',
+                      style: TextStyle(fontSize: 18),
                     ),
-                    SmoothPageIndicator(controller: _controller, count: 4),
-                    onLastPage?
-                    GestureDetector(
-                      onTap: (){
-                       Navigator.pushReplacement(context,
-                           MaterialPageRoute(builder: (context){
-                             return const HomePage();
-                           }
-                           )
-                       );
-                      },
-                      child: const Text('Done', style: TextStyle(fontSize: 18 ),),
-                    )
-                        :GestureDetector(
-                        onTap: (){
-                        _controller.nextPage(
-                            duration: const Duration(milliseconds: 800),
-                            curve: Curves.easeIn);
-                      },
-                      child: const Text('Next',style: TextStyle(fontSize: 18 ),),)
-                  ],
-                ))
+                  ),
+                  SmoothPageIndicator(
+                    controller: _controller,
+                    count: 4,
+                    effect: const WormEffect(), // Adding an effect for better UX
+                  ),
+                  onLastPage
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const HomePage();
+                            }));
+                          },
+                          child: const Text(
+                            'Done',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            _controller.nextPage(
+                              duration: const Duration(microseconds: 1),
+                              curve: Curves.easeInOut,
+                            );
+                          },
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                ],
+              ),
+            ),
           ],
-        )
+        ),
       ),
     );
   }

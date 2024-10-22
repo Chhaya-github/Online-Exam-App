@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:onboarding/screens/account/account_screen.dart';
-import 'package:onboarding/screens/home_screen.dart';
-import 'package:onboarding/screens/search/search_screen.dart';
 import 'package:onboarding/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
@@ -20,8 +17,10 @@ class ExamApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: Splash_screen(),
     );
   }
 }

@@ -34,8 +34,6 @@ class _Register_ScreenState extends State<Register_Screen> {
       log("Password do not match!" as num);
     }
     else {
-      UserCredential userCredential = await FirebaseAuth.instance.
-      createUserWithEmailAndPassword(email: email, password: password);
       log("User Created!" as num);
     }
   }
