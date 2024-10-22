@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding/screens/course_screen.dart';
-import 'package:onboarding/screens/see_all.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -76,6 +75,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.pop(context);
                 },
+              ),
+
+              // dark theme button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Text('Dark'),
+                    Spacer(),
+                    Radio(
+                      value: true,
+                      groupValue: true,
+                      onChanged: (value) {},
+                    ),
+                  ],
+                ),
               ),
               ListTile(
                 leading: Icon(Icons.settings),

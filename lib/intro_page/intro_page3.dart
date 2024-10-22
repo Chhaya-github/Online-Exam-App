@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class Intro_Page3 extends StatelessWidget {
   const Intro_Page3({super.key});
@@ -16,7 +15,7 @@ class Intro_Page3 extends StatelessWidget {
                 child: Container(
                   height: 350,
                   width: 350,
-                  child: Center(child: Lottie.network('https://lottie.host/9d054047-a66d-4ec9-85f7-d63b5b5fd4b1/E7fqYE7WjK.json',)),
+                  child: Center(child: Image.asset('assets/images/i3.jpeg')),
                 ),
               ),
               Text('Education: opening your mind', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19)),
