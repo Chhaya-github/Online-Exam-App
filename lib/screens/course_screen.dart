@@ -33,7 +33,7 @@ class _CourseScreenState extends State<CourseScreen> {
               height: 50,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.grey.shade300,
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -56,7 +56,7 @@ class _CourseScreenState extends State<CourseScreen> {
               height: 50,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.grey.shade300,
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(20),
               ),

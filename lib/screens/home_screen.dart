@@ -53,241 +53,201 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: ListView(children: [
-        Container(
-          padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
-          decoration: const BoxDecoration(
-              color: Color.fromRGBO(0, 80, 203, 2),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+      child: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {
+                  // Navigate to settings screen
+                },
+              ),
+            ],
+          ),
+        ),
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(0, 80, 203, 2),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ProfileScreen()),
+                // );
+              },
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
           child: Column(
             children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(Icons.dashboard, size: 30, color: Colors.white),
-                  Icon(
-                    Icons.notifications,
-                    size: 30,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Hi, Programmers',
-                    style:
-                        TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
-                  )),
-              const SizedBox(height: 20),
               Container(
-                margin: const EdgeInsets.only(top: 5, bottom: 20),
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                decoration:
-                    BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                child: TextFormField(
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(width: 1, color: Colors.blueAccent)),
-                    hintText: 'Search here...',
-                    hintStyle: const TextStyle(color: Colors.black54),
-                    prefixIcon: const Icon(Icons.search),
+                padding: const EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: 10,
+                ),
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(0, 80, 203, 2),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
                   ),
+                ),
+                child: Column(
+                  children: [
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Hi, Learners',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5, bottom: 20),
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              width: 1,
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                          hintText: 'Search here...',
+                          hintStyle: const TextStyle(color: Colors.black54),
+                          prefixIcon: const Icon(Icons.search),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // First heading
+                    Text(
+                      'Programming Languages',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => CourseScreen()));
+                          },
+                          child: buildContainer('Java'),
+                        ),
+                        buildContainer('C'),
+                        buildContainer('C++'),
+                        buildContainer('Python'),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    // Second heading
+                    Text(
+                      'Aptitude',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        buildContainer('Logical Reasoning'),
+                        buildContainer('Verbal'),
+                        buildContainer('Quantitative'),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(
-          height: 20,
-        ),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      'Courses',
-                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Courses()));
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'See All',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          '→',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    )),
-                height: MediaQuery.of(context).size.width,
-                width: MediaQuery.of(context).size.height,
-                child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 1.1, mainAxisSpacing: 25),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: imgData.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => CourseScreen()));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(color: Colors.black26, spreadRadius: 1, blurRadius: 6)
-                              ]),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset(
-                                imgData[index],
-                                width: 100,
-                              ),
-                              Text(
-                                titles[index],
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              )
-            ],
-          ),
-        )
-      ]),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black87,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled, size: 28),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, size: 28),
-            label: '',
-          ),
-          
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin, size: 28),
-            label: '',
-          ),
-        ],
       ),
-    ));
+    );
+  }
+
+  Widget buildContainer(String title) {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 }
-
-/*appBar: AppBar(
-backgroundColor: Colors.blueAccent,
-title: const Text('HomePage',
-style: TextStyle(fontSize: 20, color: Colors.white, ),
-),
-actions: [
-ElevatedButton(onPressed: () {
-FirebaseAuth.instance.signOut();
-//Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-}, child: const Text('Sign Out'),
-)
-],
-),
-drawer: Drawer(
-child: Column(
-children: [
-const UserAccountsDrawerHeader(
-accountName: Text(
-'Chhaya Khapekar'
-),
-accountEmail: Text(
-'chhaya@gmail.com'
-),
-currentAccountPicture: CircleAvatar(
-child: Text('P'),
-backgroundColor: Colors.white,
-),
-),
-ListTile(
-leading: const Icon(Icons.home),
-title: const Text('Home'),
-onTap: (){
-print('tapped');
-},
-),
-ListTile(
-leading: const Icon(Icons.search_off),
-title: const Text('Search'),
-onTap: () {
-print('tap');
-},
-),
-ListTile(
-leading: const Icon(Icons.star_border_outlined),
-title: const Text('Favourites'),
-onTap: (){
-print('ontap');
-},
-),
-ListTile(
-leading: const Icon(Icons.live_help_outlined),
-title: const Text('Help'),
-onTap: (){
-print('ontap');
-},
-),
-const Divider(),
-ListTile(
-leading: const Icon(Icons.contact_mail_outlined),
-title: const Text('Contacts'),
-onTap: (){
-print('contacts');
-},
-)
-],
-),
-)*/
-
-//218, 114, 151
-//67, 85, 133
-//67, 85, 133
-//39, 158, 255
-//14, 70, 163, 5
