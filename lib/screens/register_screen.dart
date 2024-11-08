@@ -1,8 +1,11 @@
-import 'dart:math';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:onboarding/models/user_model.dart';
 import 'package:onboarding/screens/forgot_password.dart';
 import 'package:onboarding/screens/login_screen.dart';
+import 'package:onboarding/services/cloud_firestore.dart';
 import 'package:onboarding/services/firebase_auth.dart';
 import 'package:onboarding/widgets/customized_button.dart';
 import 'package:onboarding/widgets/customized_textfield.dart';
@@ -27,14 +30,12 @@ class _Register_ScreenState extends State<Register_Screen> {
     String username = usernameController.text.trim();
     String cpassword = confirmPasswordController.text.trim();
 
-    if(email == "" || password == "" || username == "" || cpassword == "") {
-      log("Please fill all the details!" as num);
-    }
-    else if(password != cpassword) {
-      log("Password do not match!" as num);
-    }
-    else {
-      log("User Created!" as num);
+    if (email == "" || password == "" || username == "" || cpassword == "") {
+      log("Please fill all the details!");
+    } else if (password != cpassword) {
+      log("Password do not match!");
+    } else {
+      log("User Created!");
     }
   }
 
@@ -55,11 +56,12 @@ class _Register_ScreenState extends State<Register_Screen> {
                       width: 40,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black87),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: IconButton(onPressed: () {
-                        Navigator.pop(context);
-                      }, icon: const Icon(Icons.arrow_back_ios_new)),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new)),
                     ),
                   ),
                 ),
@@ -70,10 +72,14 @@ class _Register_ScreenState extends State<Register_Screen> {
                     children: [
                       const SizedBox(height: 12),
                       const Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: Text('Hello! Register to get Started!', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),)
+                          padding: EdgeInsets.all(6.0),
+                          child: Text(
+                            'Hello! Register to get Started!',
+                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          )),
+                      const SizedBox(
+                        height: 15,
                       ),
-                      const SizedBox(height: 15,),
                       Customized_textfield(
                         myController: usernameController,
                         hintText: 'Username',
@@ -87,8 +93,7 @@ class _Register_ScreenState extends State<Register_Screen> {
                       Customized_textfield(
                           myController: passwordController,
                           hintText: 'Enter Password',
-                          isPassword: true
-                      ),
+                          isPassword: true),
                       Customized_textfield(
                         myController: confirmPasswordController,
                         hintText: 'Confirm Password',
@@ -99,15 +104,15 @@ class _Register_ScreenState extends State<Register_Screen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: InkWell(
-                            onTap:() {
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPassword()));
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) => const ForgotPassword()));
                             },
-                            child: const Text('Forgot Password?',
+                            child: const Text(
+                              'Forgot Password?',
                               style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w700
-                              ),),
+                                  fontSize: 15, color: Colors.black87, fontWeight: FontWeight.w700),
+                            ),
                           ),
                         ),
                       ),
@@ -117,10 +122,35 @@ class _Register_ScreenState extends State<Register_Screen> {
                         textColor: Colors.white,
                         onPressed: () async {
                           try {
-                            await FirebaseAuthService().signup(emailController.text.trim(), passwordController.text.trim());
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-                          } on FirebaseException catch(e) {
+                            await FirebaseAuthService().signup(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                            );
+
+                            UserModel userModel = UserModel(
+                              userName: usernameController.text.trim(),
+                              email: usernameController.text.trim(),
+                              testSolved: 0,
+                              questionsSolved: 0,
+                            );
+
+                            log('before');
+                            await CloudFirestore().addUser(userModel);
+                            log('after');
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const LoginScreen(),
+                              ),
+                            );
+                          } on FirebaseException catch (e) {
                             print(e.message);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.message.toString()),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -134,9 +164,11 @@ class _Register_ScreenState extends State<Register_Screen> {
                       ),
                       const Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Or Register with', style: TextStyle(fontSize: 15),),
+                        child: Text(
+                          'Or Register with',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                  
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -147,12 +179,11 @@ class _Register_ScreenState extends State<Register_Screen> {
                               width: 100,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: IconButton(
                                 icon: const Icon(Icons.facebook),
                                 color: Colors.blueAccent,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                             ),
                             Container(
@@ -160,14 +191,11 @@ class _Register_ScreenState extends State<Register_Screen> {
                               width: 100,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: IconButton(
-                                icon: const Icon(
-                                    FontAwesomeIcons.google
-                                ),
+                                icon: const Icon(FontAwesomeIcons.google),
                                 //color: Colors.blueAccent,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                             ),
                             Container(
@@ -175,36 +203,38 @@ class _Register_ScreenState extends State<Register_Screen> {
                               width: 100,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: IconButton(
                                 iconSize: 30,
                                 icon: const Icon(Icons.apple),
                                 color: Colors.black87,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                             )
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            children: [
-                              const Text("Already have an account?", style: TextStyle(fontSize: 15, color: Colors.black87),),
-                              InkWell(onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-                              },child:  const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Login Now', style: TextStyle(fontSize: 15, color: Colors.cyan)),
-                              )
-                              )
-                          ]
-                        ),
-                      )
-                      )
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Row(children: [
+                              const Text(
+                                "Already have an account?",
+                                style: TextStyle(fontSize: 15, color: Colors.black87),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) => const LoginScreen()));
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Login Now',
+                                        style: TextStyle(fontSize: 15, color: Colors.cyan)),
+                                  ))
+                            ]),
+                          ))
                     ],
                   ),
                 ),

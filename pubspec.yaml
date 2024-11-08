@@ -35,7 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   smooth_page_indicator: ^1.1.0
-  lottie: ^3.1.2
   introduction_screen: ^3.1.14
   font_awesome_flutter: ^10.7.0
   firebase_core: ^3.1.1
@@ -46,6 +45,8 @@ dependencies:
   modal_progress_hud_nsn: ^0.5.1
   get: ^4.6.6
   cloud_firestore: ^5.4.0
+  flutter_riverpod: ^2.6.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,7 @@ flutter:
   assets:
    - assets/images/
    - assets/images/splash/
+   - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
