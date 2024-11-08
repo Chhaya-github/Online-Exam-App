@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding/providers/question_list_provider.dart';
 import 'package:onboarding/screens/test/apti_test_screen.dart';
+import 'package:onboarding/screens/test/prog_test_screen.dart';
 import 'package:onboarding/services/cloud_firestore.dart';
 
 class TestInstructions extends ConsumerWidget {
@@ -14,10 +15,14 @@ class TestInstructions extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Instructions',
-            style: TextStyle(
-              fontSize: 20,
+          Padding(
+            padding: EdgeInsets.only(left: 40),
+            child: Text(
+              'Instructions',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Divider(),
@@ -27,12 +32,30 @@ class TestInstructions extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('This is a FREE online test.'),
-                Text('Total number of questions 20'),
-                Text('Each question carries 1 mark'),
-                Text('There are no negative mark'),
-                Text('Score will be shown after test is completed'),
-                Text('All the best'),
+                Text(
+                  '• This is a FREE online test.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  '• Total number of questions 15',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  '• Each question carries 1 mark',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  '• There are no negative mark',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  '• Score will be shown after test is completed',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  '• All the best',
+                  style: TextStyle(fontSize: 16),
+                ),
               ],
             ),
           ),
@@ -43,17 +66,17 @@ class TestInstructions extends ConsumerWidget {
             margin: EdgeInsets.only(bottom: 20),
             child: Center(
               child: ElevatedButton(
-                onPressed: () {
-                  loadQuestions(
+                onPressed: () async {
+                  await loadQuestions(
                     ref: ref,
-                    quizCategoryId: 'aptitude',
-                    quizSubcategoryId: 'logical',
-                    testId: 'blood_relation',
+                    quizCategoryId: 'programming_languages',
+                    quizSubcategoryId: 'java',
+                    testId: 'test1',
                   );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AptitudeTestScreen(),
+                      builder: (context) => ProgrammingTestScreen(),
                     ),
                   );
                 },
@@ -72,7 +95,7 @@ class TestInstructions extends ConsumerWidget {
     required String testId,
     required WidgetRef ref,
   }) async {
-    final list = await CloudFirestore().getAptitudeQuestions(
+    final list = await CloudFirestore().getProgrammingLangQuestions(
         quizCategoryId: quizCategoryId, quizSubcategoryId: quizSubcategoryId, testId: testId);
 
     ref.read(questionsListProvider.notifier).update((state) => list);

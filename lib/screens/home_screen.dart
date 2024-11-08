@@ -2,10 +2,8 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onboarding/bottom_screen/account_screen.dart';
 import 'package:onboarding/screens/account/account_screen.dart';
 import 'package:onboarding/screens/course_screen.dart';
-import 'package:onboarding/services/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -70,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.deepOrange,
                 ),
                 child: Text(
                   'Menu',
