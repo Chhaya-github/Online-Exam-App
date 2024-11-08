@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding/firebase_options.dart';
+import 'package:onboarding/screens/home_screen.dart';
 import 'package:onboarding/screens/splash_screen.dart';
 
 void main() async {
@@ -16,11 +18,13 @@ class ExamApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      home: Splash_screen(),
+    return ProviderScope(
+      child: MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     );
   }
 }

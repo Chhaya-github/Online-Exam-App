@@ -1,19 +1,22 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:onboarding/providers/question_list_provider.dart';
 import 'package:onboarding/services/cloud_firestore.dart';
 
-class AptitudeTestScreen extends StatefulWidget {
+class AptitudeTestScreen extends ConsumerStatefulWidget {
   @override
-  State<AptitudeTestScreen> createState() => _AptitudeTestScreenState();
+  ConsumerState<AptitudeTestScreen> createState() => _AptitudeTestScreenState();
 }
 
-class _AptitudeTestScreenState extends State<AptitudeTestScreen> {
+class _AptitudeTestScreenState extends ConsumerState<AptitudeTestScreen> {
+  int? selectedIndex = null;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      backgroundColor: Colors.blue[900], // Background color as seen in the image
+      backgroundColor: Colors.red[900], // Background color as seen in the image
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FutureBuilder<List>(
@@ -29,8 +32,13 @@ class _AptitudeTestScreenState extends State<AptitudeTestScreen> {
                 );
               }
               if (snapshot.hasData) {
-                final list = snapshot.data![0];
-                log(snapshot.data!.length.toString());
+                final list = ref.read(questionsListProvider)[4];
+                // log(snapshot.data!.length.toString());
+
+                for (var element in ref.read(questionsListProvider)) {
+                  log('question is ' + element.questionText);
+                }
+
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,21 +53,80 @@ class _AptitudeTestScreenState extends State<AptitudeTestScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    _buildOption(list.options[0]),
-                    _buildOption(list.options[1]),
-                    _buildOption(list.options[2]),
-                    _buildOption(list.options[3]),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 0;
+                        });
+                      },
+                      child: _buildOption(list.options[0], selectedIndex, 0),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 1;
+                        });
+                      },
+                      child: _buildOption(list.options[1], selectedIndex, 1),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 2;
+                        });
+                      },
+                      child: _buildOption(list.options[2], selectedIndex, 2),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 3;
+                        });
+                      },
+                      child: _buildOption(list.options[3], selectedIndex, 3),
+                    ),
                     const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
                         // Handle next question logic here
+                        setState(() {
+                          selectedIndex = null;
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[300],
                         foregroundColor: Colors.black,
                       ),
-                      child: const Text('Next Question'),
+                      child: const Text('Clear Response'),
                     ),
+                    const SizedBox(height: 20),
+                    Row(children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Handle next question logic here
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[300],
+                            foregroundColor: Colors.black,
+                          ),
+                          child: const Text('Previous'),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Handle next question logic here
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[300],
+                            foregroundColor: Colors.black,
+                          ),
+                          child: const Text('Next Question'),
+                        ),
+                      ),
+                    ]),
                   ],
                 );
               } else {
@@ -72,23 +139,45 @@ class _AptitudeTestScreenState extends State<AptitudeTestScreen> {
     );
   }
 
-  Widget _buildOption(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          // Handle answer selection
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          minimumSize: const Size(double.infinity, 50),
+  Widget _buildOption(String text, int? selectedIndex, int currIndex) {
+    if (selectedIndex == null || selectedIndex != currIndex)
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          height: 35,
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
         ),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 18.0),
+      );
+    else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.green,
+              width: 5,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          height: 35,
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

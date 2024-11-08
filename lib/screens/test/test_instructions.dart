@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:onboarding/providers/question_list_provider.dart';
 import 'package:onboarding/screens/test/apti_test_screen.dart';
-import 'package:onboarding/screens/test/prog_test_screen.dart';
+import 'package:onboarding/services/cloud_firestore.dart';
 
-class TestInstructions extends StatelessWidget {
+class TestInstructions extends ConsumerWidget {
   const TestInstructions({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -42,6 +44,12 @@ class TestInstructions extends StatelessWidget {
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
+                  loadQuestions(
+                    ref: ref,
+                    quizCategoryId: 'aptitude',
+                    quizSubcategoryId: 'logical',
+                    testId: 'blood_relation',
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -56,5 +64,17 @@ class TestInstructions extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future loadQuestions({
+    required String quizCategoryId,
+    required String quizSubcategoryId,
+    required String testId,
+    required WidgetRef ref,
+  }) async {
+    final list = await CloudFirestore().getAptitudeQuestions(
+        quizCategoryId: quizCategoryId, quizSubcategoryId: quizSubcategoryId, testId: testId);
+
+    ref.read(questionsListProvider.notifier).update((state) => list);
   }
 }
