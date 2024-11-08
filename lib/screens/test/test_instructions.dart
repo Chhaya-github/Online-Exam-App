@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onboarding/screens/test/test_screen.dart';
+import 'package:onboarding/screens/test/apti_test_screen.dart';
+import 'package:onboarding/screens/test/prog_test_screen.dart';
 
 class TestInstructions extends StatelessWidget {
   const TestInstructions({super.key});
@@ -44,7 +45,7 @@ class TestInstructions extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TestScreen(),
+                      builder: (context) => AptitudeTestScreen(),
                     ),
                   );
                 },

@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
-  final String email = 'user@example.com';
-  final String fullName = 'John Doe';
+  AccountScreen({super.key});
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final int questionsSolved = 123;
 
   @override
   Widget build(BuildContext context) {
+    String email = auth.currentUser?.email.toString() ?? 'User not logged in';
+    String userName = auth.currentUser?.displayName ?? 'User not logged in';
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -22,7 +26,7 @@ class AccountScreen extends StatelessWidget {
                 backgroundColor: Colors.grey,
               ),
               Text(
-                'Chhaya khapekar',
+                email,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -30,19 +34,19 @@ class AccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                fullName,
+                userName,
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 14),
-              Text(
-                'chhayakhapekar@gmail.com',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // SizedBox(height: 14),
+              // Text(
+              //   '@gmail.com',
+              //   style: TextStyle(
+              //     fontSize: 18,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               SizedBox(height: 10),
               Text(
                 email,

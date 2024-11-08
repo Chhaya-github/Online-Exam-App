@@ -6,15 +6,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future login(String email, String password) async {
-    await auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<UserCredential> login(String email, String password) async {
+    return await auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   Future signup(String email, String password) async {
     await auth.createUserWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle() async {
     try {
       log('inside auth repository');
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -25,7 +25,7 @@ class FirebaseAuthService {
       googleUser ??= await googleSignIn.signIn();
 
       if (googleUser == null) {
-        return;
+        return null;
       }
 
       final GoogleSignInAuthentication authentication = await googleUser.authentication;
@@ -37,10 +37,17 @@ class FirebaseAuthService {
 
       UserCredential userCredential = await auth.signInWithCredential(credential);
 
+      if (userCredential.user != null) {
+        log(userCredential.user?.email.toString() ?? 'Null email');
+        return userCredential;
+      } else {
+        return null;
+      }
     } on FirebaseAuthException catch (e) {
       throw e.message!;
     } catch (error) {
       log('error at google sign in $error');
+      return null;
     }
   }
 }

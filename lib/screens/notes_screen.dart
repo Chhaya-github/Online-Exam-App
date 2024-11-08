@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:onboarding/screens/account/account_screen.dart';
 import 'package:onboarding/screens/home_screen.dart';
 import '../bottom_screen/account_screen.dart';
 
@@ -17,29 +18,32 @@ class _NotesScreenState extends State<NotesScreen> {
       bottomNavigationBar: GNav(
         activeColor: Colors.white,
         color: Colors.white,
-        backgroundColor: const Color.fromRGBO(0,80,203,2),
+        backgroundColor: const Color.fromRGBO(0, 80, 203, 2),
         tabs: [
-          GButton(icon: Icons.home,
+          GButton(
+            icon: Icons.home,
             text: 'Home',
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => HomeScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
             },
           ),
-          GButton(icon: Icons.note_alt_sharp,
+          GButton(
+            icon: Icons.note_alt_sharp,
             semanticLabel: "Notes",
             text: 'Notes',
-            onPressed: (){
+            onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => NotesScreen()));
             },
           ),
           const GButton(icon: Icons.search, text: 'Search'),
-          GButton(icon: Icons.person,
+          GButton(
+            icon: Icons.person,
             active: true,
             text: 'Account',
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountScreen()));
-            },)
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountScreen()));
+            },
+          )
         ],
       ),
     );

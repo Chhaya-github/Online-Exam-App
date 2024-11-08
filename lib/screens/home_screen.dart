@@ -1,5 +1,11 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onboarding/bottom_screen/account_screen.dart';
+import 'package:onboarding/screens/account/account_screen.dart';
 import 'package:onboarding/screens/course_screen.dart';
+import 'package:onboarding/services/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -53,6 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            log(FirebaseAuth.instance.currentUser?.email.toString() ?? 'Null');
+          },
+        ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -111,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ProfileScreen()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccountScreen()),
+                );
               },
             ),
           ],

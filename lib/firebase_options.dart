@@ -17,17 +17,29 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -40,50 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAQN0mvrdc5dVbm1ab4Ao0AxVptl1--CIU',
-    appId: '1:591135577415:web:72a80f94dbc75f9189e862',
-    messagingSenderId: '591135577415',
-    projectId: 'onboarding-c549a',
-    authDomain: 'onboarding-c549a.firebaseapp.com',
-    storageBucket: 'examackearpp-c549a.appspot.com',
-    measurementId: 'G-Y2PGFHEZJP',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAOMViVU2UuCFyDpP77D-zZCUaJmiVR0G0',
-    appId: '1:591135577415:android:a17631a1ec992d6d89e862',
-    messagingSenderId: '591135577415',
-    projectId: 'onboarding-c549a',
-    storageBucket: 'onboarding-c549a.appspot.com',
+    apiKey: 'AIzaSyBR760sh3uuKpOHnG8qbJUdb6at8VIoHdM',
+    appId: '1:539102652448:android:adb1d78ec61775a968f445',
+    messagingSenderId: '539102652448',
+    projectId: 'examprep-21568',
+    storageBucket: 'examprep-21568.appspot.com',
   );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBIk8axsBtRxK_p80EgUeAAPAJCTt4aXdg',
-    appId: '1:591135577415:ios:f2d9400ddbd5219389e862',
-    messagingSenderId: '591135577415',
-    projectId: 'onboarding-c549a',
-    storageBucket: 'onboarding-c549a.appspot.com',
-    iosBundleId: 'com.example.onboarding',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAQN0mvrdc5dVbm1ab4Ao0AxVptl1--CIU',
-    appId: '1:591135577415:web:32d3e827b6e0246389e862',
-    messagingSenderId: '591135577415',
-    projectId: 'onboarding-c549a',
-    authDomain: 'onboarding-c549a.firebaseapp.com',
-    storageBucket: 'onboarding-c549a.appspot.com',
-    measurementId: 'G-04NRB4XMBK',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBIk8axsBtRxK_p80EgUeAAPAJCTt4aXdg',
-    appId: '1:591135577415:ios:f2d9400ddbd5219389e862',
-    messagingSenderId: '591135577415',
-    projectId: 'onboarding-c549a',
-    storageBucket: 'onboarding-c549a.appspot.com',
-    iosBundleId: 'com.example.onboarding',
-  );
-
 }

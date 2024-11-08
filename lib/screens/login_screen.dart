@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onboarding/screens/forgot_password.dart';
 import 'package:onboarding/screens/home_screen.dart';
 import 'package:onboarding/screens/register_screen.dart';
@@ -21,6 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -79,8 +82,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) => const ForgotPassword()));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const ForgotPassword(),
+                                ),
+                              );
                             },
                             child: const Text(
                               'Forgot Password?',
@@ -96,32 +103,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         textColor: Colors.white,
                         onPressed: () async {
                           try {
-                            await FirebaseAuthService()
+                            final userCredential = await FirebaseAuthService()
                                 .login(emailController.text.trim(), passwordController.text.trim());
-                            if (FirebaseAuth.instance.currentUser != null) {
+                            if (userCredential.user != null) {
                               Navigator.push(
-                                  context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                                context,
+                                MaterialPageRoute(builder: (_) => HomeScreen()),
+                              );
                             } else {
                               showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                          title: const Text(
-                                              'Invalid Username or Password.Please register again and make sure that email and password is correct'),
-                                          actions: [
-                                            ElevatedButton(
-                                              child: const Text('Register now'),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Register_Screen()));
-                                              },
-                                            )
-                                          ]));
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text(
+                                      'Invalid Username or Password.Please register again and make sure that email and password is correct'),
+                                  actions: [
+                                    ElevatedButton(
+                                      child: const Text('Register now'),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const Register_Screen(),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                              );
                             }
                           } on FirebaseException catch (e) {
-                            print(e.message);
+                            log(e.message.toString());
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.message.toString()),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -142,47 +159,33 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                        child: // google sing in button
                             Container(
-                              height: 50,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: IconButton(
-                                icon: const Icon(Icons.facebook),
-                                color: Colors.blueAccent,
-                                onPressed: () {},
-                              ),
-                            ),
-                            Container(
-                              height: 50,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: IconButton(
-                                icon: const Icon(FontAwesomeIcons.google),
-                                //color: Colors.blueAccent,
-                                onPressed: () {},
-                              ),
-                            ),
-                            Container(
-                              height: 50,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black87, width: 1),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: IconButton(
-                                iconSize: 30,
-                                icon: const Icon(Icons.apple),
-                                color: Colors.black87,
-                                onPressed: () {},
-                              ),
-                            )
-                          ],
+                          // decoration: googleButtonDecoration(),
+                          height: height * 0.06,
+                          width: width * 0.9,
+                          child: ElevatedButton(
+                            // style: googleButtonStyle(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child: Image.asset('assets/icons/google.png'),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Sign in with Google',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ), // or any other Google icon you want to use
+                            onPressed: () {
+                              // signInWithGoogle(ref);
+                              signInWithGoogle();
+                            }, // Change this to your desired text color
+                          ),
                         ),
                       ),
                       Padding(
@@ -196,17 +199,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(fontSize: 15, color: Colors.black87),
                               ),
                               InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (_) => const Register_Screen()));
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Register Now',
-                                      style: TextStyle(fontSize: 15, color: Colors.cyan),
-                                    ),
-                                  ))
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) => const Register_Screen()));
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Register Now',
+                                    style: TextStyle(fontSize: 15, color: Colors.cyan),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -220,5 +224,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void signInWithGoogle() {
+    FirebaseAuthService().signInWithGoogle();
   }
 }
